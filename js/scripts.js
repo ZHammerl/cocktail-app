@@ -1,8 +1,3 @@
-alert('Hello world');
-
-let favouriteFood = 'Enchiladas verdes';
-document.write(favouriteFood);
-
 let cocktailList = [
   {
     name: 'Margarita',
@@ -23,3 +18,19 @@ let cocktailList = [
     ingredient1: 'Gin',
   },
 ];
+
+// for loop iterates over cocktail list and writes their names and what type of glass they are served in
+for (let i = 0; cocktailList[i]; i++) {
+  //writes special text for cocktails served in a special glass
+  if (cocktailList[i].glass !== 'Cocktail glass') {
+    document.write(
+      '<p>' +
+        cocktailList[i].name +
+        ' (glass: ' +
+        cocktailList[i].glass +
+        ') - Served in a special type of glass!'
+    );
+  } else {
+    document.write('<p>' + cocktailList[i].name + ' (glass: ' + cocktailList[i].glass + ')');
+  }
+}
