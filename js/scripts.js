@@ -21,7 +21,9 @@ let cocktailRepository = (function () {
   ];
 
   function add(item) {
-    cocktailList.push(item);
+    if (typeof item === 'object' && Object.keys(cocktailList[0]).every((key) => key in item)) {
+      cocktailList.push(item);
+    }
   }
 
   function getAll() {
