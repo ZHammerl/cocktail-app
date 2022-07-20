@@ -20,17 +20,17 @@ let cocktailList = [
 ];
 
 // for loop iterates over cocktail list and writes their names and what type of glass they are served in
-for (let i = 0; cocktailList[i]; i++) {
+cocktailList.forEach(function (cocktail) {
   //writes special text for cocktails served in a special glass
-  if (cocktailList[i].glass !== 'Cocktail glass') {
+  if (cocktail.glass !== 'Cocktail glass') {
     document.write(
       '<p>' +
-        cocktailList[i].name +
+        cocktail.name +
         ' (glass: ' +
-        cocktailList[i].glass +
+        cocktail.glass +
         ') - Served in a special type of glass!'
     );
   } else {
-    document.write('<p>' + cocktailList[i].name + ' (glass: ' + cocktailList[i].glass + ')');
+    document.write('<p>' + cocktail.name + ' (glass: ' + cocktail.glass + ')');
   }
-}
+});
