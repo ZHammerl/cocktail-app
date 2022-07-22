@@ -24,7 +24,9 @@ let cocktailRepository = (function () {
   function add(item) {
     if (typeof item === 'object' && Object.keys(cocktailList[0]).every((key) => key in item)) {
       cocktailList.push(item);
-    } else {alert('Please make sure to fill in all necessary data.')}
+    } else {
+      alert('Please make sure to fill in all necessary data.');
+    }
   }
 
   function getAll() {
@@ -40,8 +42,11 @@ let cocktailRepository = (function () {
   return {
     add,
     getAll,
+    filter,
   };
 })();
+
+cocktailRepository.filter('Margarita');
 
 // for loop iterates over cocktail list and writes their names and what type of glass they are served in
 cocktailRepository.getAll().forEach(function (cocktail) {
@@ -58,3 +63,5 @@ cocktailRepository.getAll().forEach(function (cocktail) {
     document.write('<p>' + cocktail.name + ' (glass: ' + cocktail.glass + ')');
   }
 });
+
+
