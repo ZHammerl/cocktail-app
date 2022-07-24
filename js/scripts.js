@@ -36,32 +36,30 @@ let cocktailRepository = (function () {
   // filter cocktails by name ?? why can I not use result in an if statement??
   function filter(input) {
     let result = cocktailList.filter((e) => e.name === input);
-    document.write(result[0].name + ' is served in a ' + result[0].glass);
+    document.write('The '+ result[0].name + ' is served in a ' + result[0].glass);
+  }
+
+  function addListItem(cocktail) {
+    let list = document.querySelector('.cocktail-list');
+    let listItem = document.createElement('li');
+    let button = document.createElement('button');
+    button.innerText = cocktail.name;
+    button.classList.add('button-class');
+    listItem.appendChild(button);
+    list.appendChild(listItem);
   }
 
   return {
     add,
     getAll,
     filter,
+    addListItem,
   };
 })();
 
 cocktailRepository.filter('Margarita');
 
-// for loop iterates over cocktail list and writes their names and what type of glass they are served in
+// for each loop iterates over cocktail list and writes their names in a button see IIFE
 cocktailRepository.getAll().forEach(function (cocktail) {
-  //writes special text for cocktails served in a special glass
-  if (cocktail.glass !== 'Cocktail glass') {
-    document.write(
-      '<p>' +
-        cocktail.name +
-        ' (glass: ' +
-        cocktail.glass +
-        ') - Served in a special type of glass!'
-    );
-  } else {
-    document.write('<p>' + cocktail.name + ' (glass: ' + cocktail.glass + ')');
-  }
+  cocktailRepository.addListItem(cocktail);
 });
-
-
