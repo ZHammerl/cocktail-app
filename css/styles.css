@@ -1,4 +1,4 @@
- :root { 
+:root {
   --primary-clr: #ff8906;
   --secondary-clr: #f25f4c;
   --tertiary-clr: #e53170;
@@ -9,11 +9,46 @@
   --txt-clr: #fffffe;
   --stroke-clr: black;
 }
- 
+
 body {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: 16px;
   background-color: var(--background-clr);
   color: var(--txt-clr);
+  margin: auto 10px;
+}
+.button-class {
+  background-color: var(--button-clr);
+  color: var(--txt-clr);
+  padding: 20px;
+  min-width: 150px;
+  margin: 5px;
+  border-radius: 4px;
+  transition: 0.2s opacity;
+  flex: 0 0 50px;
+}
+
+.button-class:hover,
+.button-class:focus {
+  cursor: pointer;
+  opacity: 0.85;
+}
+.cocktail-list {
+  list-style-type: none;
+  padding-left: 10px;
+  list-style-position: inside;
+  border: solid 5px red;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.titel {
+  clear: both;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border: solid 5px green;
+  margin: 0 auto;
 }
