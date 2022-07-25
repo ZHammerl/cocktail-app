@@ -36,7 +36,7 @@ let cocktailRepository = (function () {
   // filter cocktails by name ?? why can I not use result in an if statement??
   function filter(input) {
     let result = cocktailList.filter((e) => e.name === input);
-    document.write('The '+ result[0].name + ' is served in a ' + result[0].glass);
+    document.write('The ' + result[0].name + ' is served in a ' + result[0].glass);
   }
 
   function addListItem(cocktail) {
@@ -47,6 +47,19 @@ let cocktailRepository = (function () {
     button.classList.add('button-class');
     listItem.appendChild(button);
     list.appendChild(listItem);
+    eventListener (button, cocktail);
+  }
+
+  // logging the button eventlistener to the console
+  function showDetails(cocktail) {
+    console.log(cocktail);
+  }
+
+  //adding eventListener to newly created button
+  function eventListener(button, cocktail) {
+    button.addEventListener('click', function () {
+      showDetails(cocktail);
+    });
   }
 
   return {
