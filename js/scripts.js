@@ -1,29 +1,11 @@
 let cocktailRepository = (function () {
-  let cocktailList = [
-    {
-      name: 'Margarita',
-      tags: ['alcoholic', 'contemporary classic'],
-      glass: 'Cocktail glass',
-      ingredient1: 'Tequila',
-    },
-    {
-      name: 'Mojito',
-      tags: ['alcoholic', 'contemporary classic'],
-      glass: 'Highball glass',
-      ingredient1: 'White rum',
-    },
-    {
-      name: 'Dry Martini',
-      tags: ['alcoholic', 'classic'],
-      glass: 'Cocktail glass',
-      ingredient1: 'Gin',
-    },
-  ];
+  let cocktailList = [];
+  let apiUrl = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail';
 
   // validation of type of added item and if all objectkeys are the same of the orginial array
-  function add(item) {
-    if (typeof item === 'object' && Object.keys(cocktailList[0]).every((key) => key in item)) {
-      cocktailList.push(item);
+  function add(cocktail) {
+    if (typeof cocktail === 'object' && 'name' in cocktail) {
+      cocktailList.push(cocktail);
     } else {
       alert('Please make sure to fill in all necessary data.');
     }
@@ -47,18 +29,51 @@ let cocktailRepository = (function () {
     button.classList.add('button-class');
     listItem.appendChild(button);
     list.appendChild(listItem);
-    eventListener (button, cocktail);
-  }
-
-  // logging the button eventlistener to the console
-  function showDetails(cocktail) {
-    console.log(cocktail);
-  }
-
-  //adding eventListener to newly created button
-  function eventListener(button, cocktail) {
     button.addEventListener('click', function () {
       showDetails(cocktail);
+    });
+  }
+
+  function loadList() {
+    return fetch(apiUrl)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (json) {
+        console.log(json);
+        json.drinks.forEach(function (item) {
+          let cocktail = {
+            name: item.strDrink,
+            img: item.strDrinkThumb,
+            ID: item.idDrink,
+          };
+          add(cocktail);
+          console.log(cocktail);
+        });
+      })
+      .catch(function (e) {
+        console.error(e);
+      });
+  }
+
+  function loadDetails(cocktail) {
+    let url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${cocktail.name}`;
+    return fetch(url)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (details) {
+        cocktail.instructions = details.drinks[0].strInstructions;
+        cocktail.glass = details.drinks[0].strGlass;
+      })
+      .catch(function (e) {
+        console.error(e);
+      });
+  }
+
+  function showDetails(cocktail) {
+    loadDetails(cocktail).then(function () {
+      console.log(cocktail);
     });
   }
 
@@ -67,12 +82,19 @@ let cocktailRepository = (function () {
     getAll,
     filter,
     addListItem,
+    loadList,
+    loadDetails,
   };
 })();
 
-cocktailRepository.filter('Margarita');
+//cocktailRepository.filter('Mojito');
 
-// for each loop iterates over cocktail list and writes their names in a button see IIFE
-cocktailRepository.getAll().forEach(function (cocktail) {
-  cocktailRepository.addListItem(cocktail);
+cocktailRepository.loadList().then(function () {
+  // Now the data is loaded!
+  // for each loop iterates over cocktail list and writes their names in a button
+  cocktailRepository.getAll().forEach(function (cocktail) {
+    cocktailRepository.addListItem(cocktail);
+  });
 });
+
+cocktailRepository.loadDetails('Margarita');
