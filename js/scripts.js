@@ -1,6 +1,7 @@
 let cocktailRepository = (function () {
-  let cocktailList = [];
-  let apiUrl = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail';
+  let cocktailList = [],
+    apiUrl = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail',
+    modalContainer = document.querySelector('#modal-container');
 
   // validation of type of added item and if all objectkeys are the same of the orginial array
   function add(cocktail) {
@@ -48,7 +49,7 @@ let cocktailRepository = (function () {
             ID: item.idDrink,
           };
           add(cocktail);
-          console.log(cocktail);
+          //console.log(cocktail);
         });
       })
       .catch(function (e) {
@@ -67,14 +68,56 @@ let cocktailRepository = (function () {
         cocktail.glass = details.drinks[0].strGlass;
       })
       .catch(function (e) {
-        console.error(e);
+        console.warn(e);
       });
   }
 
+  // show details in Modal for cocktail
   function showDetails(cocktail) {
     loadDetails(cocktail).then(function () {
-      console.log(cocktail);
+      showModal(cocktail);
     });
+  }
+
+  // MODAL
+  function showModal(cocktail) {
+    // Clear all the existing modal content
+    modalContainer.innerHTML = '';
+    // creating modal element in DOM
+    let modal = document.createElement('div');
+    modal.classList.add('modal');
+    // adding modal content
+    let closeButtonElement = document.createElement('button');
+    closeButtonElement.classList.add('modal-close');
+    closeButtonElement.innerText = 'Close';
+    closeButtonElement.addEventListener('click', hideModal);
+
+    // Cocktail name as title
+    let titleElement = document.createElement('h1');
+    titleElement.innerText = cocktail.name;
+    titleElement.classList.add('modal-text');
+
+    // image of cocktail
+    let imageElement = document.createElement('img');
+    imageElement.src = cocktail.img;
+    imageElement.classList.add('modal-img')
+
+    // glass type of cocktail
+    let glassElement = document.createElement('p');
+    glassElement.innerText = cocktail.glass;
+    glassElement.classList.add('modal-text');
+
+    modal.appendChild(closeButtonElement);
+    modal.appendChild(titleElement);
+    modal.appendChild(imageElement);
+    modal.appendChild(glassElement);
+    modalContainer.appendChild(modal);
+
+    modalContainer.classList.add('is-visible');
+  }
+
+  function hideModal() {
+    modalContainer.classList.remove('is-visible');
   }
 
   return {
