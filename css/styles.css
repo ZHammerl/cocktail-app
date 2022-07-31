@@ -1,11 +1,11 @@
 :root {
-  --primary-clr: #ff8906;
-  --secondary-clr: #f25f4c;
+  --primary-clr: #f25f4c;
+  --secondary-clr: #ff8906;
   --tertiary-clr: #e53170;
   --background-clr: #0f0e17;
   --headline-clr: #fffffe;
   --paragraph-clr: #a7a9be;
-  --button-clr: #ff8906;
+  --button-clr: #717494;
   --txt-clr: #fffffe;
   --stroke-clr: black;
 }
@@ -23,8 +23,12 @@ body {
   background-color: var(--button-clr);
   color: var(--txt-clr);
   padding: 20px;
-  min-width: 150px;
-  margin: 5px;
+  border: 5px solid var(--background-clr);
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
   border-radius: 4px;
   transition: 0.2s opacity;
   flex: 0 0 50px;
@@ -33,17 +37,25 @@ body {
 .button-class:hover,
 .button-class:focus {
   cursor: pointer;
-  opacity: 0.85;
+  opacity: 0.75;
+  transition: 0.5s opacity;
+}
+button:hover,
+button:focus {
+  text-decoration: none;
+  cursor: pointer;
 }
 .cocktail-list {
   list-style-type: none;
-  padding-left: 10px;
   list-style-position: inside;
+  padding-left: 0;
+  padding-top: 3px;
   /*border: solid 5px red;*/
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  text-align: center;
+  max-width: fit-content;
+  border: 5px solid var(--headline-clr);
 }
 .titel {
   clear: both;
@@ -52,6 +64,7 @@ body {
   text-align: center;
   /*border: solid 5px green;*/
   margin: 0 auto;
+  padding: 20px;
 }
 
 #modal-container {
@@ -81,7 +94,7 @@ body {
   margin: auto;
   display: inline-block;
   box-sizing: border-box;
-  background: #fff;
+  background: var(--primary-clr);
   padding: 15px;
   width: 100%;
   max-width: 700px;
@@ -90,15 +103,15 @@ body {
 }
 .modal-close {
   float: right;
-  -webkit-appearance: none;
   border: 0;
   background: none;
-  color: #777;
   text-decoration: underline;
+   /* border: 2px solid green; */
 }
 
 .modal h1 {
   margin-top: 0;
+  /* border: 2px solid red; */
 }
 
 .modal p {
@@ -107,12 +120,18 @@ body {
 
 .modal-text {
   color: black;
+  text-align: center;
+  /* border: 2px solid blue */
+  /* text-decoration: underline; */
 }
+
 
 .modal-img {
   max-width: 50%;
   max-height: 50%;
   display: block;
+  margin-left: auto;
+  margin-right: auto;
   padding-top: 20px;
- 
+  border-radius: 20%;
 }
