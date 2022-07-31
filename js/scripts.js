@@ -67,26 +67,30 @@ let cocktailRepository = (function () {
       .then(function (details) {
         cocktail.instructions = details.drinks[0].strInstructions;
         cocktail.glass = details.drinks[0].strGlass;
-        cocktail.ingredient1 = details.drinks[0].strIngredient1;
-        cocktail.ingredient2 = details.drinks[0].strIngredient2;
-        cocktail.ingredient3 = details.drinks[0].strIngredient3;
-        cocktail.ingredient4 = details.drinks[0].strIngredient4;
-        cocktail.ingredient5 = details.drinks[0].strIngredient5;
-        cocktail.ingredient6 = details.drinks[0].strIngredient6;
-        cocktail.ingredient7 = details.drinks[0].strIngredient7;
-        cocktail.ingredient8 = details.drinks[0].strIngredient8;
-        cocktail.ingredient9 = details.drinks[0].strIngredient9;
-        cocktail.ingredient10 = details.drinks[0].strIngredient10;
-        cocktail.measure1 = details.drinks[0].strMeasure1;
-        cocktail.measure2 = details.drinks[0].strMeasure2;
-        cocktail.measure3 = details.drinks[0].strMeasure3;
-        cocktail.measure4 = details.drinks[0].strMeasure4;
-        cocktail.measure5 = details.drinks[0].strMeasure5;
-        cocktail.measure6 = details.drinks[0].strMeasure6;
-        cocktail.measure7 = details.drinks[0].strMeasure7;
-        cocktail.measure8 = details.drinks[0].strMeasure8;
-        cocktail.measure9 = details.drinks[0].strMeasure9;
-        cocktail.measure10 = details.drinks[0].strMeasure10;
+        cocktail.ingredients = [
+          details.drinks[0].strIngredient1,
+          details.drinks[0].strIngredient2,
+          details.drinks[0].strIngredient3,
+          details.drinks[0].strIngredient4,
+          details.drinks[0].strIngredient5,
+          details.drinks[0].strIngredient6,
+          details.drinks[0].strIngredient7,
+          details.drinks[0].strIngredient8,
+          details.drinks[0].strIngredient9,
+          details.drinks[0].strIngredient10,
+        ];
+        cocktail.measures = [
+          details.drinks[0].strMeasure1,
+          details.drinks[0].strMeasure2,
+          details.drinks[0].strMeasure3,
+          details.drinks[0].strMeasure4,
+          details.drinks[0].strMeasure5,
+          details.drinks[0].strMeasure6,
+          details.drinks[0].strMeasure7,
+          details.drinks[0].strMeasure8,
+          details.drinks[0].strMeasure9,
+          details.drinks[0].strMeasure10,
+        ];
       })
       .catch(function (e) {
         console.warn(e);
@@ -125,7 +129,8 @@ let cocktailRepository = (function () {
 
     // prepartation instructions
     let instructionsElement = document.createElement('p');
-    instructionsElement.innerText = 'Instructions: ' + cocktail.instructions;
+    instructionsElement.innerText = `Instructions: 
+    ${cocktail.instructions}`;
     instructionsElement.classList.add('modal-text');
 
     // Ingredients
@@ -133,9 +138,15 @@ let cocktailRepository = (function () {
     ingredientsElement.innerText = cocktail.ingredients;
     ingredientsElement.classList.add('modal-text');
 
+    // // Measures
+    // let measuresIngredientElement = document.createElement('p');
+    // measuresElement.innerText = cocktail.measures;
+    // measuresElement.classList.add('modal-text');
+
     // glass type for cocktail
     let glassElement = document.createElement('p');
-    glassElement.innerText = 'Serve in: ' + cocktail.glass;
+    glassElement.innerText = `Serve in: 
+    ${cocktail.glass}`;
     glassElement.classList.add('modal-text');
 
     modal.appendChild(closeButtonElement);
@@ -144,6 +155,7 @@ let cocktailRepository = (function () {
     modal.appendChild(instructionsElement);
     modal.appendChild(imageElement);
     modal.appendChild(ingredientsElement);
+    // modal.appendChild(measuresElement);
     modalContainer.appendChild(modal);
 
     modalContainer.classList.add('is-visible');
