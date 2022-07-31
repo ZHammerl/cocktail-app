@@ -100,26 +100,38 @@ let cocktailRepository = (function () {
     // image of cocktail
     let imageElement = document.createElement('img');
     imageElement.src = cocktail.img;
-    imageElement.classList.add('modal-img')
+    imageElement.classList.add('modal-img');
 
     // glass type of cocktail
     let glassElement = document.createElement('p');
-    glassElement.innerText = cocktail.glass;
+    glassElement.innerText = 'Glass type: ' + cocktail.glass;
     glassElement.classList.add('modal-text');
 
     modal.appendChild(closeButtonElement);
     modal.appendChild(titleElement);
-    modal.appendChild(imageElement);
     modal.appendChild(glassElement);
+    modal.appendChild(imageElement);
     modalContainer.appendChild(modal);
 
     modalContainer.classList.add('is-visible');
   }
-
+  // hide Modal
   function hideModal() {
     modalContainer.classList.remove('is-visible');
   }
-
+  // ...when ESC key is pressed
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
+      hideModal();
+    }
+  });
+  // ...when clicked outside of the modal
+  modalContainer.addEventListener('click', (e) => {
+    let target = e.target;
+    if (target === modalContainer){
+      hideModal();
+    }
+  })
   return {
     add,
     getAll,
