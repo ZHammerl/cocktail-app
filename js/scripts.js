@@ -58,39 +58,53 @@ let cocktailRepository = (function () {
   }
 
   function loadDetails(cocktail) {
-    let url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${cocktail.name}`;
+    let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${cocktail.ID}`;
     return fetch(url)
       .then(function (response) {
         return response.json();
       })
 
       .then(function (details) {
+        console.log(details);
+        let newDrinksArray = Object.entries(details.drinks[0]);
+
+        let getIngredients = function () {
+          return newDrinksArray
+            .filter((e) => e[0].startsWith('strIngredient'))
+            .map(function (e) {
+              return e[1];
+            })
+            .filter((e) => e !== null);
+        };
+
+        let getMeasures = function () {
+          return newDrinksArray
+            .filter((e) => e[0].startsWith('strMeas'))
+            .map(function (e) {
+              return e[1];
+            })
+            .filter((e) => e !== null);
+        };
+
+        // join ingredients with measures
+        let matchIngredientMeasures = function () {
+          let ingredients = getIngredients();
+          let measures = getMeasures();
+          console.log(ingredients, measures);
+          return ingredients
+            .map(function (ing, i) {
+              return `<li class="ingredients"> <span class="measure">${
+                measures[i] === undefined ? '' : `${measures[i]} `
+              }</span>
+            <span class="">${ing}</span>
+            </li>`;
+            })
+            .toString()
+            .replace(/,/g, ' ');
+        };
         cocktail.instructions = details.drinks[0].strInstructions;
         cocktail.glass = details.drinks[0].strGlass;
-        cocktail.ingredients = [
-          details.drinks[0].strIngredient1,
-          details.drinks[0].strIngredient2,
-          details.drinks[0].strIngredient3,
-          details.drinks[0].strIngredient4,
-          details.drinks[0].strIngredient5,
-          details.drinks[0].strIngredient6,
-          details.drinks[0].strIngredient7,
-          details.drinks[0].strIngredient8,
-          details.drinks[0].strIngredient9,
-          details.drinks[0].strIngredient10,
-        ];
-        cocktail.measures = [
-          details.drinks[0].strMeasure1,
-          details.drinks[0].strMeasure2,
-          details.drinks[0].strMeasure3,
-          details.drinks[0].strMeasure4,
-          details.drinks[0].strMeasure5,
-          details.drinks[0].strMeasure6,
-          details.drinks[0].strMeasure7,
-          details.drinks[0].strMeasure8,
-          details.drinks[0].strMeasure9,
-          details.drinks[0].strMeasure10,
-        ];
+        cocktail.ingredients = matchIngredientMeasures();
       })
       .catch(function (e) {
         console.warn(e);
@@ -114,7 +128,7 @@ let cocktailRepository = (function () {
     // adding modal content
     let closeButtonElement = document.createElement('button');
     closeButtonElement.classList.add('modal-close');
-    closeButtonElement.innerText = 'Close';
+    closeButtonElement.innerText = 'X';
     closeButtonElement.addEventListener('click', hideModal);
 
     // Cocktail name as title
@@ -127,21 +141,16 @@ let cocktailRepository = (function () {
     imageElement.src = cocktail.img;
     imageElement.classList.add('modal-img');
 
-    // prepartation instructions
+    // instructions
     let instructionsElement = document.createElement('p');
     instructionsElement.innerText = `Instructions: 
     ${cocktail.instructions}`;
     instructionsElement.classList.add('modal-text');
 
     // Ingredients
-    let ingredientsElement = document.createElement('p');
-    ingredientsElement.innerText = cocktail.ingredients;
+    let ingredientsElement = document.createElement('ul');
+    ingredientsElement.innerHTML = cocktail.ingredients;
     ingredientsElement.classList.add('modal-text');
-
-    // // Measures
-    // let measuresIngredientElement = document.createElement('p');
-    // measuresElement.innerText = cocktail.measures;
-    // measuresElement.classList.add('modal-text');
 
     // glass type for cocktail
     let glassElement = document.createElement('p');
