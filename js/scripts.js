@@ -61,7 +61,7 @@ let cocktailRepository = (function () {
   }
 
   function loadDetails(cocktail) {
-    let url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${cocktail.name}`;
+    let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${cocktail.ID}`;
     return fetch(url)
       .then(function (response) {
         return response.json();
@@ -69,7 +69,8 @@ let cocktailRepository = (function () {
 
       .then(function (details) {
         const newArray = Object.entries(details.drinks[0]);
-        // console.log(newArray);
+        console.log(newArray);
+        console.log(details);
 
         const getIngredients = function () {
           return newArray
