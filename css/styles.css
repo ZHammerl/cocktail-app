@@ -42,7 +42,7 @@ body {
 }
 button:hover,
 button:focus {
-  text-decoration: none;
+  font-weight: bold;
   cursor: pointer;
 }
 .cocktail-list {
@@ -105,8 +105,8 @@ button:focus {
   float: right;
   border: 0;
   background: none;
-  text-decoration: underline;
-   /* border: 2px solid green; */
+  text-decoration: none;
+  /* border: 2px solid green; */
 }
 
 .modal h1 {
@@ -125,13 +125,23 @@ button:focus {
   /* text-decoration: underline; */
 }
 
-
 .modal-img {
-  max-width: 50%;
-  max-height: 50%;
-  display: block;
+  max-width: 100%;
+  max-height: 100%;
   margin-left: auto;
   margin-right: auto;
   padding-top: 20px;
   border-radius: 20%;
+}
+
+.ingredients {
+  list-style-type: none;
+  text-align: left;
+  margin-top: 20px;
+
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }

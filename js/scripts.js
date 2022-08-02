@@ -96,7 +96,7 @@ let cocktailRepository = (function () {
               return `<li class="ingredients"> <span class="measure">${
                 measures[i] === undefined ? '' : `${measures[i]} `
               }</span>
-            <span class="">${ing}</span>
+            <span class="ingredient">${ing}</span>
             </li>`;
             })
             .toString()
@@ -136,21 +136,24 @@ let cocktailRepository = (function () {
     titleElement.innerText = cocktail.name;
     titleElement.classList.add('modal-text');
 
+    //container for imagen and ingredients
+    let modalGrid = document.createElement('div')
+    modalGrid.classList.add('modal-grid')
+
     // image of cocktail
     let imageElement = document.createElement('img');
     imageElement.src = cocktail.img;
     imageElement.classList.add('modal-img');
 
-    // instructions
-    let instructionsElement = document.createElement('p');
-    instructionsElement.innerText = `Instructions: 
-    ${cocktail.instructions}`;
-    instructionsElement.classList.add('modal-text');
-
     // Ingredients
     let ingredientsElement = document.createElement('ul');
     ingredientsElement.innerHTML = cocktail.ingredients;
     ingredientsElement.classList.add('modal-text');
+
+    // instructions
+    let instructionsElement = document.createElement('p');
+    instructionsElement.innerText = `Instructions: ${cocktail.instructions}`;
+    instructionsElement.classList.add('modal-text');
 
     // glass type for cocktail
     let glassElement = document.createElement('p');
@@ -161,9 +164,10 @@ let cocktailRepository = (function () {
     modal.appendChild(closeButtonElement);
     modal.appendChild(titleElement);
     modal.appendChild(glassElement);
+    modal.appendChild(modalGrid);
+    modalGrid.appendChild(imageElement);
+    modalGrid.appendChild(ingredientsElement);
     modal.appendChild(instructionsElement);
-    modal.appendChild(imageElement);
-    modal.appendChild(ingredientsElement);
     // modal.appendChild(measuresElement);
     modalContainer.appendChild(modal);
 
