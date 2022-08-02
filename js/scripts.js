@@ -1,6 +1,7 @@
 let cocktailRepository = (function () {
   let cocktailList = [],
-    apiUrl = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail',
+    apiUrl =
+      'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail',
     modalContainer = document.querySelector('#modal-container');
 
   // validation of type of added item and if all objectkeys are the same of the orginial array
@@ -19,7 +20,9 @@ let cocktailRepository = (function () {
   // filter cocktails by name ?? why can I not use result in an if statement??
   function filter(input) {
     let result = cocktailList.filter((e) => e.name === input);
-    document.write('The ' + result[0].name + ' is served in a ' + result[0].glass);
+    document.write(
+      'The ' + result[0].name + ' is served in a ' + result[0].glass
+    );
   }
 
   function addListItem(cocktail) {
@@ -41,7 +44,7 @@ let cocktailRepository = (function () {
         return response.json();
       })
       .then(function (json) {
-        console.log(json);
+        // console.log(json);
         json.drinks.forEach(function (item) {
           let cocktail = {
             name: item.strDrink,
@@ -65,32 +68,52 @@ let cocktailRepository = (function () {
       })
 
       .then(function (details) {
+        const newArray = Object.entries(details.drinks[0]);
+        // console.log(newArray);
+
+        const getIngredients = function () {
+          return newArray
+            .filter((e) => e[0].startsWith('strIngredient'))
+            .map(function (e) {
+              if (e[1] !== 'null') return e[1];
+            })
+            .filter((e) => e !== null);
+          // const str = ingredients.toString().replace(/,/g, ', ');
+        };
+
+        const getMeasures = function () {
+          return newArray
+            .filter((e) => e[0].startsWith('strMeasure'))
+            .map(function (e) {
+              if (e[1] !== 'null') return e[1];
+            })
+            .filter((e) => e !== null && e !== '');
+        };
+
+        const makeStrIngredients = function () {
+          // join ingridients with measures
+          const ingredients = getIngredients();
+          const measures = getMeasures();
+          console.log(ingredients, measures);
+          const str = ingredients
+            .map(function (ing, i) {
+              return `
+            <li class="ingredient">
+              <span class="measure">${
+                measures[i] === undefined ? '' : `${measures[i]}-`
+              }</span>
+              <span class="">${ing}</span>
+            </li>
+            `;
+            })
+            .toString()
+            .replace(/,/g, ' ');
+          return str;
+        };
+        console.log(makeStrIngredients());
         cocktail.instructions = details.drinks[0].strInstructions;
         cocktail.glass = details.drinks[0].strGlass;
-        cocktail.ingredients = [
-          details.drinks[0].strIngredient1,
-          details.drinks[0].strIngredient2,
-          details.drinks[0].strIngredient3,
-          details.drinks[0].strIngredient4,
-          details.drinks[0].strIngredient5,
-          details.drinks[0].strIngredient6,
-          details.drinks[0].strIngredient7,
-          details.drinks[0].strIngredient8,
-          details.drinks[0].strIngredient9,
-          details.drinks[0].strIngredient10,
-        ];
-        cocktail.measures = [
-          details.drinks[0].strMeasure1,
-          details.drinks[0].strMeasure2,
-          details.drinks[0].strMeasure3,
-          details.drinks[0].strMeasure4,
-          details.drinks[0].strMeasure5,
-          details.drinks[0].strMeasure6,
-          details.drinks[0].strMeasure7,
-          details.drinks[0].strMeasure8,
-          details.drinks[0].strMeasure9,
-          details.drinks[0].strMeasure10,
-        ];
+        cocktail.ingredients = makeStrIngredients();
       })
       .catch(function (e) {
         console.warn(e);
@@ -134,8 +157,9 @@ let cocktailRepository = (function () {
     instructionsElement.classList.add('modal-text');
 
     // Ingredients
-    let ingredientsElement = document.createElement('p');
-    ingredientsElement.innerText = cocktail.ingredients;
+    let ingredientsElement = document.createElement('ul');
+    // ingredientsElement.appendChild(makeStrIngredients());
+    ingredientsElement.innerHTML = cocktail.ingredients; //!
     ingredientsElement.classList.add('modal-text');
 
     // // Measures
