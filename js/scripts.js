@@ -1,7 +1,8 @@
 let cocktailRepository = (function () {
   let cocktailList = [],
     apiUrl = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail',
-    modalContainer = document.querySelector('#modal-container');
+    modalContainer = document.querySelector('.modal-container');
+  modalBody = document.querySelector('.modal-body');
 
   // validation of type of added item and if all objectkeys are the same of the orginial array
   function add(cocktail) {
@@ -16,25 +17,24 @@ let cocktailRepository = (function () {
     return cocktailList;
   }
 
-  // filter cocktails by name ?? why can I not use result in an if statement??
-  function filter(input) {
-    let result = cocktailList.filter((e) => e.name === input);
-    document.write('The ' + result[0].name + ' is served in a ' + result[0].glass);
-  }
-
+  // adding list item
   function addListItem(cocktail) {
     let list = document.querySelector('.cocktail-list');
     let listItem = document.createElement('li');
     let button = document.createElement('button');
     button.innerText = cocktail.name;
-    button.classList.add('button-class', 'btn', 'btn-primary');
+    button.classList.add('button-class', 'btn', 'btn-secondary', 'col', 'list-group-item');
+    $('button').attr({ 'data-toggle': 'modal', 'data-target': '#detailsModal' });
     listItem.appendChild(button);
     list.appendChild(listItem);
+    list.classList.add('container');
+    // listItem.classList.add('group-list-item');
     button.addEventListener('click', function () {
       showDetails(cocktail);
     });
   }
 
+  // loading List (Cocktail-Api)
   function loadList() {
     return fetch(apiUrl)
       .then(function (response) {
@@ -57,6 +57,7 @@ let cocktailRepository = (function () {
       });
   }
 
+  // loading Details fetching (Api) + assigning details to show
   function loadDetails(cocktail) {
     let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${cocktail.ID}`;
     return fetch(url)
@@ -93,7 +94,7 @@ let cocktailRepository = (function () {
           console.log(ingredients, measures);
           return ingredients
             .map(function (ing, i) {
-              return `<li class="ingredients group-list-item"> <span class="measure">${
+              return `<li class="ingredients group-list-item list-unstyled"> <span class="measure">${
                 measures[i] === undefined ? '' : `${measures[i]} `
               }</span>
             <span class="ingredient">${ing}</span>
@@ -121,79 +122,51 @@ let cocktailRepository = (function () {
   // MODAL
   function showModal(cocktail) {
     // Clear all the existing modal content
-    modalContainer.innerHTML = '';
-    // creating modal element in DOM
-    let modal = document.createElement('div');
-    modal.classList.add('modal');
+    modalBody.innerHTML = '';
+
     // adding modal content
-    let closeButtonElement = document.createElement('button');
-    closeButtonElement.classList.add('modal-close');
-    closeButtonElement.innerText = 'X';
-    closeButtonElement.addEventListener('click', hideModal);
 
     // Cocktail name as title
-    let titleElement = document.createElement('h1');
+    let titleElement = document.querySelector('.modal-title');
     titleElement.innerText = cocktail.name;
     titleElement.classList.add('modal-text');
 
     //container for imagen and ingredients
-    let modalGrid = document.createElement('div')
-    modalGrid.classList.add('modal-grid')
+    let modalGrid = document.createElement('div');
+    modalGrid.classList.add('modal-grid');
 
     // image of cocktail
     let imageElement = document.createElement('img');
     imageElement.src = cocktail.img;
-    imageElement.classList.add('modal-img');
+    imageElement.classList.add('modal-img', 'img-fluid');
 
     // Ingredients
     let ingredientsElement = document.createElement('ul');
     ingredientsElement.innerHTML = cocktail.ingredients;
-    ingredientsElement.classList.add('modal-text',  'list-group');
+    ingredientsElement.classList.add('modal-text', 'list-group');
 
     // instructions
     let instructionsElement = document.createElement('p');
-    instructionsElement.innerText = `Instructions: ${cocktail.instructions}`;
+    instructionsElement.innerHTML = '<span>Instructions:</span>' + ` ${cocktail.instructions}`;
     instructionsElement.classList.add('modal-text');
 
     // glass type for cocktail
     let glassElement = document.createElement('p');
-    glassElement.innerText = `Serve in: 
-    ${cocktail.glass}`;
+    glassElement.innerHTML = '<span>Serve in:</span>' + ` ${cocktail.glass}`;
     glassElement.classList.add('modal-text');
 
-    modal.appendChild(closeButtonElement);
-    modal.appendChild(titleElement);
-    modal.appendChild(glassElement);
-    modal.appendChild(modalGrid);
+    // modal.appendChild(closeButtonElement);
+    modalBody.appendChild(glassElement);
+    modalBody.appendChild(modalGrid);
     modalGrid.appendChild(imageElement);
     modalGrid.appendChild(ingredientsElement);
-    modal.appendChild(instructionsElement);
-    // modal.appendChild(measuresElement);
-    modalContainer.appendChild(modal);
+    modalBody.appendChild(instructionsElement);
+    // modalContainer.appendChild(modal);
+  }
 
-    modalContainer.classList.add('is-visible');
-  }
-  // hide Modal
-  function hideModal() {
-    modalContainer.classList.remove('is-visible');
-  }
-  // ...when ESC key is pressed
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
-      hideModal();
-    }
-  });
-  // ...when clicked outside of the modal
-  modalContainer.addEventListener('click', (e) => {
-    let target = e.target;
-    if (target === modalContainer) {
-      hideModal();
-    }
-  });
   return {
     add,
     getAll,
-    filter,
     addListItem,
     loadList,
     loadDetails,
