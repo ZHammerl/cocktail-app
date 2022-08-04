@@ -27,7 +27,7 @@ let cocktailRepository = (function () {
     let listItem = document.createElement('li');
     let button = document.createElement('button');
     button.innerText = cocktail.name;
-    button.classList.add('button-class');
+    button.classList.add('button-class', 'btn', 'btn-primary');
     listItem.appendChild(button);
     list.appendChild(listItem);
     button.addEventListener('click', function () {
@@ -93,7 +93,7 @@ let cocktailRepository = (function () {
           console.log(ingredients, measures);
           return ingredients
             .map(function (ing, i) {
-              return `<li class="ingredients"> <span class="measure">${
+              return `<li class="ingredients group-list-item"> <span class="measure">${
                 measures[i] === undefined ? '' : `${measures[i]} `
               }</span>
             <span class="ingredient">${ing}</span>
@@ -148,7 +148,7 @@ let cocktailRepository = (function () {
     // Ingredients
     let ingredientsElement = document.createElement('ul');
     ingredientsElement.innerHTML = cocktail.ingredients;
-    ingredientsElement.classList.add('modal-text');
+    ingredientsElement.classList.add('modal-text',  'list-group');
 
     // instructions
     let instructionsElement = document.createElement('p');
