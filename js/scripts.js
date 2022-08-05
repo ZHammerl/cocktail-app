@@ -1,8 +1,7 @@
 let cocktailRepository = (function () {
   let cocktailList = [],
     apiUrl = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail',
-    modalContainer = document.querySelector('.modal-container');
-  modalBody = document.querySelector('.modal-body');
+    modalBody = document.querySelector('.modal-body');
 
   // validation of type of added item and if all objectkeys are the same of the orginial array
   function add(cocktail) {
@@ -20,15 +19,30 @@ let cocktailRepository = (function () {
   // adding list item
   function addListItem(cocktail) {
     let list = document.querySelector('.cocktail-list');
+    list.classList.add('container-fluid', 'm-auto', 'p-0');
     let listItem = document.createElement('li');
+    listItem.classList.add(
+      'listItem',
+      'text-center',
+      'col-sm-6',
+      'col-md-4',
+      'border-dark',
+      'border',
+      'bg-image',
+      'img-fluid',
+      'list-unstyled'
+    );
+    let listTitle = document.createElement('p');
+    listTitle.innerHTML = '<strong>' + cocktail.name + '</strong>';
+    listTitle.classList.add('modal-text', 'h4', 'mt-3');
     let button = document.createElement('button');
-    button.innerText = cocktail.name;
-    button.classList.add('button-class', 'btn', 'btn-secondary', 'col', 'list-group-item');
+    button.innerText = 'How to mix it';
+    button.classList.add('button-class', 'btn', 'mr-auto', 'ml-auto', 'mb-2');
     $('button').attr({ 'data-toggle': 'modal', 'data-target': '#detailsModal' });
+    listItem.appendChild(listTitle);
     listItem.appendChild(button);
     list.appendChild(listItem);
-    list.classList.add('container');
-    // listItem.classList.add('group-list-item');
+
     button.addEventListener('click', function () {
       showDetails(cocktail);
     });
@@ -41,7 +55,6 @@ let cocktailRepository = (function () {
         return response.json();
       })
       .then(function (json) {
-        console.log(json);
         json.drinks.forEach(function (item) {
           let cocktail = {
             name: item.strDrink,
@@ -49,7 +62,6 @@ let cocktailRepository = (function () {
             ID: item.idDrink,
           };
           add(cocktail);
-          //console.log(cocktail);
         });
       })
       .catch(function (e) {
@@ -64,11 +76,9 @@ let cocktailRepository = (function () {
       .then(function (response) {
         return response.json();
       })
-
       .then(function (details) {
         console.log(details);
         let newDrinksArray = Object.entries(details.drinks[0]);
-
         let getIngredients = function () {
           return newDrinksArray
             .filter((e) => e[0].startsWith('strIngredient'))
@@ -128,7 +138,7 @@ let cocktailRepository = (function () {
 
     // Cocktail name as title
     let titleElement = document.querySelector('.modal-title');
-    titleElement.innerHTML = '<strong>'+cocktail.name+'<strong>';
+    titleElement.innerHTML = '<strong>' + cocktail.name + '<strong>';
     titleElement.classList.add('modal-text');
 
     // image of cocktail
@@ -140,13 +150,14 @@ let cocktailRepository = (function () {
     let ingredientsElement = document.createElement('ul');
     ingredientsElement.innerHTML =
       '<span><strong>Ingredients:</strong></span>' + ` ${cocktail.ingredients}`;
-    ingredientsElement.classList.add('modal-text', 'list-group', 'col-6');
+    ingredientsElement.classList.add('modal-text', 'list-group', 'col-5', 'ml-auto', 'mt-2');
 
     // instructions
     let instructionsElement = document.createElement('p');
     instructionsElement.innerHTML =
-      '<span class="text-center"><strong>Instructions:</strong></span><br>' + ` ${cocktail.instructions}`;
-    instructionsElement.classList.add('modal-text', 'col-12', 'text-center');
+      '<span class="text-center"><strong>Instructions:</strong></span><br>' +
+      ` ${cocktail.instructions}`;
+    instructionsElement.classList.add('modal-text', 'col-12', 'text-center', 'mt-4');
 
     // glass type for cocktail
     let glassElement = document.createElement('p');
@@ -159,14 +170,14 @@ let cocktailRepository = (function () {
 
     // glass type and instructions container
     let glassInstructionsContainer = document.createElement('div');
-    glassInstructionsContainer.classList.add('row')
+    glassInstructionsContainer.classList.add('row');
 
     ingredientImageContainer.appendChild(imageElement);
     ingredientImageContainer.appendChild(ingredientsElement);
+    glassInstructionsContainer.appendChild(instructionsElement);
     glassInstructionsContainer.appendChild(glassElement);
     modalBody.appendChild(ingredientImageContainer);
     modalBody.appendChild(glassInstructionsContainer);
-    glassInstructionsContainer.appendChild(instructionsElement);
   }
 
   return {
@@ -175,10 +186,9 @@ let cocktailRepository = (function () {
     addListItem,
     loadList,
     loadDetails,
+    showDetails,
   };
 })();
-
-//cocktailRepository.filter('Mojito');
 
 cocktailRepository.loadList().then(function () {
   // Now the data is loaded!
@@ -187,5 +197,3 @@ cocktailRepository.loadList().then(function () {
     cocktailRepository.addListItem(cocktail);
   });
 });
-
-cocktailRepository.loadDetails('Margarita');
