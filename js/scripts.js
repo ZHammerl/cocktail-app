@@ -128,40 +128,45 @@ let cocktailRepository = (function () {
 
     // Cocktail name as title
     let titleElement = document.querySelector('.modal-title');
-    titleElement.innerText = cocktail.name;
+    titleElement.innerHTML = '<strong>'+cocktail.name+'<strong>';
     titleElement.classList.add('modal-text');
-
-    //container for imagen and ingredients
-    let modalGrid = document.createElement('div');
-    modalGrid.classList.add('modal-grid');
 
     // image of cocktail
     let imageElement = document.createElement('img');
     imageElement.src = cocktail.img;
-    imageElement.classList.add('modal-img', 'img-fluid');
+    imageElement.classList.add('modal-img', 'img-fluid', 'col-6');
 
     // Ingredients
     let ingredientsElement = document.createElement('ul');
-    ingredientsElement.innerHTML = cocktail.ingredients;
-    ingredientsElement.classList.add('modal-text', 'list-group');
+    ingredientsElement.innerHTML =
+      '<span><strong>Ingredients:</strong></span>' + ` ${cocktail.ingredients}`;
+    ingredientsElement.classList.add('modal-text', 'list-group', 'col-6');
 
     // instructions
     let instructionsElement = document.createElement('p');
-    instructionsElement.innerHTML = '<span>Instructions:</span>' + ` ${cocktail.instructions}`;
-    instructionsElement.classList.add('modal-text');
+    instructionsElement.innerHTML =
+      '<span class="text-center"><strong>Instructions:</strong></span><br>' + ` ${cocktail.instructions}`;
+    instructionsElement.classList.add('modal-text', 'col-12', 'text-center');
 
     // glass type for cocktail
     let glassElement = document.createElement('p');
-    glassElement.innerHTML = '<span>Serve in:</span>' + ` ${cocktail.glass}`;
-    glassElement.classList.add('modal-text');
+    glassElement.innerHTML = '<span><strong>Serve in:</strong></span><br>' + ` ${cocktail.glass}`;
+    glassElement.classList.add('modal-text', 'col', 'text-center');
 
-    // modal.appendChild(closeButtonElement);
-    modalBody.appendChild(glassElement);
-    modalBody.appendChild(modalGrid);
-    modalGrid.appendChild(imageElement);
-    modalGrid.appendChild(ingredientsElement);
-    modalBody.appendChild(instructionsElement);
-    // modalContainer.appendChild(modal);
+    // ingredients and cocktail image in same container
+    let ingredientImageContainer = document.createElement('div');
+    ingredientImageContainer.classList.add('row');
+
+    // glass type and instructions container
+    let glassInstructionsContainer = document.createElement('div');
+    glassInstructionsContainer.classList.add('row')
+
+    ingredientImageContainer.appendChild(imageElement);
+    ingredientImageContainer.appendChild(ingredientsElement);
+    glassInstructionsContainer.appendChild(glassElement);
+    modalBody.appendChild(ingredientImageContainer);
+    modalBody.appendChild(glassInstructionsContainer);
+    glassInstructionsContainer.appendChild(instructionsElement);
   }
 
   return {
