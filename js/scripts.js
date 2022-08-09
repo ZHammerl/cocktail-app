@@ -80,7 +80,6 @@ let cocktailRepository = (function () {
         return response.json();
       })
       .then(function (details) {
-        console.log(details);
         let newDrinksArray = Object.entries(details.drinks[0]);
         let getIngredients = function () {
           return newDrinksArray
@@ -104,7 +103,6 @@ let cocktailRepository = (function () {
         let matchIngredientMeasures = function () {
           let ingredients = getIngredients();
           let measures = getMeasures();
-          console.log(ingredients, measures);
           return ingredients
             .map(function (ing, i) {
               return `<li class="ingredients group-list-item list-unstyled"> <span class="measure">${
