@@ -19,7 +19,7 @@ let cocktailRepository = (function () {
   // adding list item
   function addListItem(cocktail) {
     let list = document.querySelector('.cocktail-list');
-    list.classList.add('container-fluid', 'm-auto', 'p-0');
+    list.classList.add('container', 'overflow-hidden', 'm-auto', 'p-0', 'gx-5');
     let listItem = document.createElement('li');
     listItem.classList.add(
       'listItem',
@@ -30,12 +30,14 @@ let cocktailRepository = (function () {
       'border',
       'bg-image',
       'img-fluid',
-      'list-unstyled'
+      'list-unstyled',
+      'border',
+      'border-secondary'
     );
     listItem.setAttribute('name', cocktail.name);
     let listTitle = document.createElement('p');
     listTitle.innerText = cocktail.name;
-    listTitle.classList.add('modal-text', 'h4', 'mt-3', 'list-header');
+    listTitle.classList.add('modal-text', 'mt-3', 'h5', 'list-header');
     listTitle.setAttribute('id', 'title');
     let listButton = document.createElement('button');
     listButton.innerText = 'How to mix it';
@@ -146,13 +148,21 @@ let cocktailRepository = (function () {
     // image of cocktail
     let imageElement = document.createElement('img');
     imageElement.src = cocktail.img;
-    imageElement.classList.add('modal-img', 'img-fluid', 'col-6');
+    imageElement.classList.add('modal-img', 'img-fluid', 'mx-auto','col-sm-6');
 
     // Ingredients
     let ingredientsElement = document.createElement('ul');
     ingredientsElement.innerHTML =
       '<span><strong>Ingredients:</strong></span>' + ` ${cocktail.ingredients}`;
-    ingredientsElement.classList.add('modal-text', 'list-group', 'col-5', 'ml-auto', 'mt-2');
+    ingredientsElement.classList.add(
+      'modal-text',
+      'list-group',
+      'col-11',
+      'col-sm-5',
+      'ml-auto',
+      'mt-2',
+      'pl-1'
+    );
 
     // instructions
     let instructionsElement = document.createElement('p');
@@ -194,10 +204,8 @@ let cocktailRepository = (function () {
     const cocktailItem = $('.listItem');
     cocktailItem.each(function () {
       const item = $(this);
-      const nameRaw = item.text();
-      const nameStr = nameRaw.toLowerCase()
-      console.log(nameStr);
-      if (nameStr.includes(searchInput)) {
+      const name = item.text().toLowerCase();
+      if (name.includes(searchInput)) {
         item.show();
       } else {
         item.hide();
