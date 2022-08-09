@@ -70,3 +70,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
+
+.list-header {
+  font-weight: bold;
+}

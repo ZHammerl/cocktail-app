@@ -32,18 +32,19 @@ let cocktailRepository = (function () {
       'img-fluid',
       'list-unstyled'
     );
+    listItem.setAttribute('name', cocktail.name);
     let listTitle = document.createElement('p');
-    listTitle.innerHTML = '<strong>' + cocktail.name + '</strong>';
+    listTitle.innerText = cocktail.name;
     listTitle.classList.add('modal-text', 'h4', 'mt-3', 'list-header');
-    let button = document.createElement('button');
-    button.innerText = 'How to mix it';
-    button.classList.add('button-class', 'btn', 'mr-auto', 'ml-auto', 'mb-2');
+    listTitle.setAttribute('id', 'title');
+    let listButton = document.createElement('button');
+    listButton.innerText = 'How to mix it';
+    listButton.classList.add('button-class', 'btn', 'mr-auto', 'ml-auto', 'mb-2');
     $('button').attr({ 'data-toggle': 'modal', 'data-target': '#detailsModal' });
     listItem.appendChild(listTitle);
-    listItem.appendChild(button);
+    listItem.appendChild(listButton);
     list.appendChild(listItem);
-
-    button.addEventListener('click', function () {
+    listButton.addEventListener('click', function () {
       showDetails(cocktail);
     });
   }
@@ -138,6 +139,7 @@ let cocktailRepository = (function () {
 
     // Cocktail name as title
     let titleElement = document.querySelector('.modal-title');
+
     titleElement.innerHTML = '<strong>' + cocktail.name + '<strong>';
     titleElement.classList.add('modal-text');
 
@@ -181,6 +183,27 @@ let cocktailRepository = (function () {
   }
 
   // Search function
+  // assigns search id to variable and adds event listener for user input
+  const search = document.getElementById('search');
+  search.addEventListener('input', searchList);
+
+  // checks for input in search field and "filters" by what is inputted
+  function searchList() {
+    let searchInput = search.value;
+    searchInput = searchInput.toLowerCase();
+    const cocktailItem = $('.listItem');
+    cocktailItem.each(function () {
+      const item = $(this);
+      const nameRaw = item.text();
+      const nameStr = nameRaw.toLowerCase()
+      console.log(nameStr);
+      if (nameStr.includes(searchInput)) {
+        item.show();
+      } else {
+        item.hide();
+      }
+    });
+  }
 
   return {
     add,
