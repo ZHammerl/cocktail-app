@@ -34,7 +34,7 @@ let cocktailRepository = (function () {
     );
     let listTitle = document.createElement('p');
     listTitle.innerHTML = '<strong>' + cocktail.name + '</strong>';
-    listTitle.classList.add('modal-text', 'h4', 'mt-3');
+    listTitle.classList.add('modal-text', 'h4', 'mt-3', 'list-header');
     let button = document.createElement('button');
     button.innerText = 'How to mix it';
     button.classList.add('button-class', 'btn', 'mr-auto', 'ml-auto', 'mb-2');
@@ -179,6 +179,8 @@ let cocktailRepository = (function () {
     modalBody.appendChild(ingredientImageContainer);
     modalBody.appendChild(glassInstructionsContainer);
   }
+
+  // Search function
 
   return {
     add,

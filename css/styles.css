@@ -1,6 +1,6 @@
 :root {
-  --primary-clr: #f25f4c;
-  --secondary-clr: #ff8906;
+  --primary-clr: #68f191;
+  --secondary-clr: #f6b229;
   --tertiary-clr: #e53170;
   --background-clr: #0f0e17;
   --headline-clr: #fffffe;
@@ -20,7 +20,9 @@ body {
   margin: auto 10px;
 }
 
-.bg-image {
+.bg-image,
+.modal-header,
+.modal-footer {
   background-image: url(../img/bg-cocktails1.jpg);
   background-repeat: no-repeat;
   background-position: center;
@@ -54,8 +56,8 @@ body {
   border-radius: 20%;
 }
 
-.modal-content {
-  background: var(--primary-clr);
+.modal-body {
+  background-color: var(--primary-clr);
 }
 
 .modal-text {
@@ -68,5 +70,3 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
-
-
