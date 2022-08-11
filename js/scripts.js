@@ -69,12 +69,16 @@ let cocktailRepository = (function () {
         let newDrinksArray = Object.entries(details.drinks[0]);
 
         let getIngredients = function () {
-          return newDrinksArray
-            .filter((e) => e[0].startsWith('strIngredient'))
-            .map(function (e) {
-              return e[1];
-            })
-            .filter((e) => e !== null);
+          return (newDrinksArray
+             .reduce((listIng, [key, ingredient]) => {
+                if (!key.startsWith('strIng')) return listIng;
+                if (!ingredient) {
+                  return listIng;
+                }
+                
+                return [...listIng, ingredient];
+              }, [])
+                  );
         };
 
         let getMeasures = function () {
