@@ -15,5 +15,5 @@ The application shows a list of cocktail names in a grid. Each cocktail has a bu
 
 ## Links:
 
-- [Website](https://ethangalva.github.io/simple-js-app/)
-- [Github](https://github.com/ethangalva/pokedex-app)
+- [Website](https://ZHammerl.github.io/cocktail-app/)
+- [Github](https://github.com/ZHammerl/cocktail-app)
